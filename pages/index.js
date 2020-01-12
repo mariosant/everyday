@@ -1,4 +1,5 @@
 import React from 'react'
+import { times, prop } from 'ramda'
 import Grid from '@material-ui/core/Grid'
 import List from '@material-ui/core/List'
 import Paper from '@material-ui/core/Paper'
@@ -7,6 +8,11 @@ import Box from '@material-ui/core/Box'
 import useSWR from 'swr'
 import fetch from 'isomorphic-unfetch'
 import Entry from '../src/components/Entry'
+import Loader from '../src/components/Loader'
+
+const ListLoader = () => times(Loader, 10)
+const Items = ({ feed }) =>
+  feed.map(entry => <Entry entry={entry} key={entry.id} />)
 
 const Page = () => {
   const { data, error } = useSWR('/api/feed', api =>
@@ -21,7 +27,7 @@ const Page = () => {
         </Box>
         <Paper>
           <List container>
-            {data && data.feed.map(entry => <Entry entry={entry} />)}
+            {prop('feed', data) ? <Items feed={data.feed} /> : <ListLoader />}
           </List>
         </Paper>
       </Grid>
