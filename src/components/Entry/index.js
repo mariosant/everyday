@@ -26,13 +26,13 @@ const EntryCard = ({ entry }) => {
   return (
     <ListItem
       divider
-      component={props => <a href={href} target='_blank' {...props} />}
-      alignItems='flex-start'
+      component={props => <a href={href} target="_blank" {...props} />}
+      alignItems="flex-start"
       button
     >
       <ListItemAvatar>
         <Avatar
-          aria-label='recipe'
+          aria-label="recipe"
           style={{ backgroundColor: stringHexNumber(entry.author) }}
         >
           {entry.author[0]}
