@@ -22,17 +22,17 @@ const Page = () => {
 
   return (
     <Grid container justify="center">
-      <Grid item xs={12} sm={12} md={6}>
-        <Box fontSize="h3.fontSize" pt="2rem">
+      <Grid item xs={12} sm={12} md={8}>
+        <Box fontSize="h4.fontSize" pt="2rem" px="0.6rem">
           BBQ Corner 🥩
         </Box>
 
-        <Box fontSize="h5.fontSize" py="0.6rem">
+        <Box fontSize="h5.fontSize" py="0.6rem" px="0.6rem">
           Your source of curated barbecue news.
         </Box>
 
         <Paper>
-          <List container>
+          <List container bordered>
             {prop('feed', data) ? <Items feed={data.feed} /> : <ListLoader />}
           </List>
         </Paper>
