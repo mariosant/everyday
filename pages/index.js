@@ -1,5 +1,6 @@
 import React from 'react'
-import { times, prop } from 'ramda'
+import times from 'ramda/src/times'
+import prop from 'ramda/src/prop'
 import Grid from '@material-ui/core/Grid'
 import List from '@material-ui/core/List'
 import Paper from '@material-ui/core/Paper'
@@ -10,7 +11,7 @@ import fetch from 'isomorphic-unfetch'
 import Entry from '../src/components/Entry'
 import Loader from '../src/components/Loader'
 
-const ListLoader = () => times(Loader, 10)
+const ListLoader = () => times(index => <Loader key={index} />, 10)
 const Items = ({ feed }) =>
   feed.map(entry => <Entry entry={entry} key={entry.id} />)
 
@@ -20,9 +21,9 @@ const Page = () => {
   )
 
   return (
-    <Grid container justify='center'>
+    <Grid container justify="center">
       <Grid item xs={12} sm={12} md={6}>
-        <Box fontSize='h3.fontSize' py='2rem'>
+        <Box fontSize="h3.fontSize" py="2rem">
           Everyday BBQ
         </Box>
         <Paper>
