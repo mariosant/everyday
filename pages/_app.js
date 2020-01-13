@@ -21,7 +21,7 @@ export default class MyApp extends App {
     return (
       <React.Fragment>
         <Head>
-          <title>Everyday BBQ - Your source of barbecue news</title>
+          <title>BBQ Corner - Your source of curated barbecue news</title>
           <meta
             name='viewport'
             content='minimum-scale=1, initial-scale=1, width=device-width'
