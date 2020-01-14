@@ -1,23 +1,40 @@
 import React from 'react'
 import times from 'ramda/src/times'
 import prop from 'ramda/src/prop'
+import propOr from 'ramda/src/propOr'
+import last from 'ramda/src/last'
 import Grid from '@material-ui/core/Grid'
 import List from '@material-ui/core/List'
 import Paper from '@material-ui/core/Paper'
 import Typography from '@material-ui/core/Typography'
+import Button from '@material-ui/core/Button'
 import Box from '@material-ui/core/Box'
-import useSWR from 'swr'
+import useSWR, { useSWRPages } from 'swr'
 import fetch from 'isomorphic-unfetch'
 import Entry from '../src/components/Entry'
 import Loader from '../src/components/Loader'
+
+const getFeed = async from => {
+  const encodedFrom = Buffer.from(from).toString('base64')
+  const response = await fetch(`/api/feed/${encodedFrom}`).then(r => r.json())
+
+  return response.feed
+}
 
 const ListLoader = () => times(index => <Loader key={index} />, 10)
 const Items = ({ feed }) =>
   feed.map(entry => <Entry entry={entry} key={entry.id} />)
 
 const Page = () => {
-  const { data, error } = useSWR('/api/feed', api =>
-    fetch(api).then(r => r.json())
+  const { pages, loadMore, isLoadingMore, isReachingEnd } = useSWRPages(
+    'feed',
+    ({ offset, withSWR }) => {
+      const { data = [] } = withSWR(useSWR(offset || 'initial', getFeed))
+
+      return <Items feed={data} />
+    },
+    ({ data = [] }) => propOr(null, 'id', last(data)),
+    []
   )
 
   return (
@@ -33,8 +50,20 @@ const Page = () => {
 
         <Paper>
           <List container bordered>
-            {prop('feed', data) ? <Items feed={data.feed} /> : <ListLoader />}
+            {pages}
+            {isLoadingMore && <ListLoader />}
           </List>
+
+          <Box textAlign="center" padding="2rem">
+            <Button
+              variant="outlined"
+              color="primary"
+              onClick={loadMore}
+              disabled={isReachingEnd || isLoadingMore}
+            >
+              Load more
+            </Button>
+          </Box>
         </Paper>
       </Grid>
     </Grid>

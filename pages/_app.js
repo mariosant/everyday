@@ -23,10 +23,13 @@ export default class MyApp extends App {
         <Head>
           <title>BBQ Corner - Your source of curated barbecue news</title>
           <meta
-            name='viewport'
-            content='minimum-scale=1, initial-scale=1, width=device-width'
+            name="viewport"
+            content="minimum-scale=1, initial-scale=1, width=device-width"
           />
-          <link href="https://fonts.googleapis.com/css?family=Fira+Mono&display=swap" rel="stylesheet"></link>
+          <link
+            href="https://fonts.googleapis.com/css?family=Fira+Mono&display=swap"
+            rel="stylesheet"
+          ></link>
         </Head>
         <ThemeProvider theme={theme}>
           {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
