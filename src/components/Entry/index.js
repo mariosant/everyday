@@ -4,11 +4,9 @@ import Box from '@material-ui/core/Box'
 import ListItem from '@material-ui/core/ListItem'
 import ListItemAvatar from '@material-ui/core/ListItemAvatar'
 import ListItemText from '@material-ui/core/ListItemText'
-import { DateTime } from 'luxon'
 import propEq from 'ramda/src/propEq'
 import React from 'react'
 import TimeAgo from 'react-timeago'
-import Markdown from 'react-markdown'
 
 const stringHexNumber = string =>
   (
@@ -24,7 +22,6 @@ const stringHexNumber = string =>
 
 const EntryCard = ({ entry }) => {
   const href = entry.alternate.find(propEq('type', 'text/html')).href
-  const published = DateTime.fromMillis(entry.published)
 
   return (
     <ListItem
@@ -37,7 +34,7 @@ const EntryCard = ({ entry }) => {
         primary={entry.title}
         secondary={
           <>
-            <TimeAgo date={published} /> - {entry.author}
+            <TimeAgo date={entry.published} /> - {entry.author}
           </>
         }
       />
