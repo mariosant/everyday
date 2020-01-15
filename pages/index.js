@@ -13,6 +13,7 @@ import useSWR, { useSWRPages } from 'swr'
 import fetch from 'isomorphic-unfetch'
 import Entry from '../src/components/Entry'
 import Loader from '../src/components/Loader'
+import Viz from 'react-visibility-sensor'
 
 const getFeed = async from => {
   const encodedFrom = Buffer.from(from).toString('base64')
@@ -55,14 +56,18 @@ const Page = () => {
           </List>
 
           <Box textAlign="center" padding="2rem">
-            <Button
-              variant="outlined"
-              color="primary"
-              onClick={loadMore}
-              disabled={isReachingEnd || isLoadingMore}
+            <Viz
+              onChange={isVisible => isVisible && !isLoadingMore && loadMore()}
             >
-              Load more
-            </Button>
+              <Button
+                variant="outlined"
+                color="primary"
+                onClick={loadMore}
+                disabled={isReachingEnd || isLoadingMore}
+              >
+                Load more
+              </Button>
+            </Viz>
           </Box>
         </Paper>
       </Grid>
