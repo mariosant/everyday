@@ -30,12 +30,26 @@ export default class MyApp extends App {
             href="https://fonts.googleapis.com/css?family=Fira+Mono&display=swap"
             rel="stylesheet"
           ></link>
-          <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
-					<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
-					<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
-					<link rel="manifest" href="/site.webmanifest" />
-					<meta name="msapplication-TileColor" content="#eeeeee" />
-					<meta name="theme-color" content="#eeeeee" />
+          <link
+            rel="apple-touch-icon"
+            sizes="180x180"
+            href="/apple-touch-icon.png"
+          />
+          <link
+            rel="icon"
+            type="image/png"
+            sizes="32x32"
+            href="/favicon-32x32.png"
+          />
+          <link
+            rel="icon"
+            type="image/png"
+            sizes="16x16"
+            href="/favicon-16x16.png"
+          />
+          <link rel="manifest" href="/site.webmanifest" />
+          <meta name="msapplication-TileColor" content="#eeeeee" />
+          <meta name="theme-color" content="#eeeeee" />
         </Head>
         <ThemeProvider theme={theme}>
           {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}

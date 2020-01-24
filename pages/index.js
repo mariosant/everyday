@@ -9,10 +9,16 @@ import Paper from '@material-ui/core/Paper'
 import Typography from '@material-ui/core/Typography'
 import Button from '@material-ui/core/Button'
 import Box from '@material-ui/core/Box'
+import AppBar from '@material-ui/core/AppBar'
+import ToolBar from '@material-ui/core/Toolbar'
+import IconButton from '@material-ui/core/IconButton'
+import MenuIcon from '@material-ui/icons/Menu'
+
 import useSWR, { useSWRPages } from 'swr'
 import fetch from 'isomorphic-unfetch'
 import Entry from '../src/components/Entry'
 import Loader from '../src/components/Loader'
+import { Sidebar } from '../src/components/Sidebar'
 import Viz from 'react-visibility-sensor'
 
 const getFeed = async from => {
@@ -22,11 +28,19 @@ const getFeed = async from => {
   return response.feed
 }
 
+const getSources = async () => {
+  const response = await fetch(`/api/sources`).then(r => r.json())
+
+  return response
+}
+
 const ListLoader = () => times(index => <Loader key={index} />, 10)
 const Items = ({ feed }) =>
   feed.map(entry => <Entry entry={entry} key={entry.id} />)
 
 const Page = () => {
+  const { data: sources } = useSWR('a', getSources)
+
   const { pages, loadMore, isLoadingMore, isReachingEnd } = useSWRPages(
     'feed',
     ({ offset, withSWR }) => {
@@ -39,19 +53,18 @@ const Page = () => {
   )
 
   return (
-    <Grid container justify="center">
-      <Grid item xs={12} sm={12} md={8}>
-        <Box fontSize="h4.fontSize" pt="2rem" px="1.45rem">
-          BBQ Corner 🥩
-        </Box>
+    <Box>
+      <AppBar color="primary" position="sticky" style={{ zIndex: 99999 }}>
+        <ToolBar>
+          <IconButton edge="start" color="inherit" aria-label="menu">
+            <MenuIcon />
+          </IconButton>
+          <Typography variant="h5">BBQ Corner 🥩</Typography>
+        </ToolBar>
+      </AppBar>
+      <Sidebar sources={propOr([], 'sources', sources)} />
 
-        <Box fontSize="h5.fontSize" py="0.6rem" px="1.45rem">
-          Your source of curated barbecue news.
-        </Box>
-      </Grid>
-
-      <Grid item xs={12} sm={12} md={8}>
-        <Box px="0.6rem">
+      <Box ml="350px" mt="0.6rem" px="0.6rem">
         <Paper>
           <List container bordered>
             {pages}
@@ -73,9 +86,8 @@ const Page = () => {
             </Viz>
           </Box>
         </Paper>
-        </Box>
-      </Grid>
-    </Grid>
+      </Box>
+    </Box>
   )
 }
 

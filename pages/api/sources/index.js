@@ -1,21 +1,24 @@
 import fetch from 'isomorphic-unfetch'
-import {pipe, find, propEq, prop} from 'ramda'
-import url from 'url'
+import { find, pipe, prop, propEq, sortBy } from 'ramda'
 
 const token = process.env.TOKEN
 const feedCategory = process.env.CATEGORY_ID
 const endpoint = 'https://cloud.feedly.com/v3'
 
-const getFeeds = pipe(find(propEq('id', feedCategory)), prop('feeds'));
+const getFeeds = pipe(
+  find(propEq('id', feedCategory)),
+  prop('feeds'),
+  sortBy(prop('title'))
+)
 
 const getSources = () =>
-     fetch(`${endpoint}/collections`, {
-        headers: {
-          authorization: `OAuth ${token}`
-        }
-      })
-        .then(r => r.json())
-        .then(getFeeds)
+  fetch(`${endpoint}/collections`, {
+    headers: {
+      authorization: `OAuth ${token}`
+    }
+  })
+    .then(r => r.json())
+    .then(getFeeds)
 
 export default async (req, res) => {
   const sources = await getSources()
