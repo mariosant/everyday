@@ -19,7 +19,9 @@ const getFeed = from =>
     : fakeData
 
 export default async (req, res) => {
-  const { query: {from} } = req; 
+  const {
+    query: { from }
+  } = req
   const feed = await getFeed(Buffer.from(from, 'base64').toString())
 
   res.setHeader('Content-Type', 'application/json')
