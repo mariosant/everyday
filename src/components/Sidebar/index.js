@@ -6,6 +6,7 @@ import ListItemText from '@material-ui/core/ListItemText'
 import ListSubheader from '@material-ui/core/ListSubheader'
 import { makeStyles } from '@material-ui/core/styles'
 import React from 'react'
+import Hidden from '@material-ui/core/Hidden'
 
 const useStyles = makeStyles(theme => ({
   list: {
@@ -42,13 +43,15 @@ export const Sidebar = ({ children, pending, sources = [] }) => {
   const styles = useStyles()
 
   return (
-    <Drawer variant="permanent">
-      <List className={styles.list}>
-        <ListSubheader divider>Sources</ListSubheader>
-        {sources.map(({ id: key, iconUrl, title }) =>
-          React.createElement(Source, { key, iconUrl, title })
-        )}
-      </List>
-    </Drawer>
+    <Hidden only="xs">
+      <Drawer variant="permanent">
+        <List className={styles.list}>
+          <ListSubheader divider>Sources</ListSubheader>
+          {sources.map(({ id: key, iconUrl, title }) =>
+            React.createElement(Source, { key, iconUrl, title })
+          )}
+        </List>
+      </Drawer>
+    </Hidden>
   )
 }

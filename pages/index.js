@@ -1,25 +1,23 @@
-import React from 'react'
-import times from 'ramda/src/times'
-import prop from 'ramda/src/prop'
-import propOr from 'ramda/src/propOr'
-import last from 'ramda/src/last'
-import Grid from '@material-ui/core/Grid'
+import AppBar from '@material-ui/core/AppBar'
+import Box from '@material-ui/core/Box'
+import Button from '@material-ui/core/Button'
+import IconButton from '@material-ui/core/IconButton'
 import List from '@material-ui/core/List'
 import Paper from '@material-ui/core/Paper'
-import Typography from '@material-ui/core/Typography'
-import Button from '@material-ui/core/Button'
-import Box from '@material-ui/core/Box'
-import AppBar from '@material-ui/core/AppBar'
 import ToolBar from '@material-ui/core/Toolbar'
-import IconButton from '@material-ui/core/IconButton'
+import Typography from '@material-ui/core/Typography'
 import MenuIcon from '@material-ui/icons/Menu'
-
-import useSWR, { useSWRPages } from 'swr'
+import { makeStyles } from '@material-ui/core/styles';
 import fetch from 'isomorphic-unfetch'
+import last from 'ramda/src/last'
+import propOr from 'ramda/src/propOr'
+import times from 'ramda/src/times'
+import React from 'react'
+import Viz from 'react-visibility-sensor'
+import useSWR, { useSWRPages } from 'swr'
 import Entry from '../src/components/Entry'
 import Loader from '../src/components/Loader'
 import { Sidebar } from '../src/components/Sidebar'
-import Viz from 'react-visibility-sensor'
 
 const getFeed = async from => {
   const encodedFrom = Buffer.from(from).toString('base64')
@@ -38,6 +36,14 @@ const ListLoader = () => times(index => <Loader key={index} />, 10)
 const Items = ({ feed }) =>
   feed.map(entry => <Entry entry={entry} key={entry.id} />)
 
+const useStyles = makeStyles(theme => ({
+    responsivePadding: {
+        [theme.breakpoints.up('sm')]: {
+            paddingLeft: 'calc(350px + 0.6rem)'
+        }
+    }
+}))
+
 const Page = () => {
   const { data: sources } = useSWR('a', getSources)
 
@@ -52,6 +58,8 @@ const Page = () => {
     []
   )
 
+  const styles = useStyles();
+
   return (
     <Box>
       <AppBar color="primary" position="sticky" style={{ zIndex: 99999 }}>
@@ -62,9 +70,10 @@ const Page = () => {
           <Typography variant="h5">BBQ Corner 🥩</Typography>
         </ToolBar>
       </AppBar>
+
       <Sidebar sources={propOr([], 'sources', sources)} />
 
-      <Box ml="350px" mt="0.6rem" px="0.6rem">
+      <Box mt="0.6rem" px="0.6rem" className={styles.responsivePadding}>
         <Paper>
           <List container bordered>
             {pages}
