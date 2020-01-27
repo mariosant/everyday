@@ -1,14 +1,9 @@
-import AppBar from '@material-ui/core/AppBar'
 import Box from '@material-ui/core/Box'
 import Button from '@material-ui/core/Button'
-import IconButton from '@material-ui/core/IconButton'
 import List from '@material-ui/core/List'
 import Paper from '@material-ui/core/Paper'
-import ToolBar from '@material-ui/core/Toolbar'
-import Typography from '@material-ui/core/Typography'
-import MenuIcon from '@material-ui/icons/Menu'
 import { makeStyles } from '@material-ui/core/styles'
-import Hidden from '@material-ui/core/Hidden'
+import { useStoreActions } from 'easy-peasy'
 import fetch from 'isomorphic-unfetch'
 import last from 'ramda/src/last'
 import propOr from 'ramda/src/propOr'
@@ -16,10 +11,10 @@ import times from 'ramda/src/times'
 import React from 'react'
 import Viz from 'react-visibility-sensor'
 import useSWR, { useSWRPages } from 'swr'
-import { useStoreActions } from 'easy-peasy'
 import Entry from '../src/components/Entry'
 import Loader from '../src/components/Loader'
 import { Sidebar } from '../src/components/Sidebar'
+import AppBar from '../src/components/AppBar'
 
 const getFeed = async from => {
   const encodedFrom = Buffer.from(from).toString('base64')
@@ -68,22 +63,7 @@ const Page = () => {
 
   return (
     <Box>
-      <AppBar color="primary" position="sticky" style={{ zIndex: 99999 }}>
-        <ToolBar>
-          <Hidden smUp>
-            <IconButton
-              onClick={toggleSidebar}
-              edge="start"
-              color="inherit"
-              aria-label="menu"
-            >
-              <MenuIcon />
-            </IconButton>
-          </Hidden>
-          <Typography variant="h5">BBQ Corner 🥩</Typography>
-        </ToolBar>
-      </AppBar>
-
+      <AppBar />
       <Sidebar sources={propOr([], 'sources', sources)} />
 
       <Box mt="0.6rem" px="0.6rem" className={styles.responsivePadding}>
