@@ -1,10 +1,12 @@
 import React from 'react'
 import App from 'next/app'
 import Head from 'next/head'
+import { StoreProvider } from 'easy-peasy'
 import { ThemeProvider } from '@material-ui/core/styles'
 import CssBaseline from '@material-ui/core/CssBaseline'
 import theme from '../src/theme'
 import AppContainer from '../src/components/AppContainer'
+import store from '../src/store'
 
 export default class MyApp extends App {
   componentDidMount() {
@@ -51,13 +53,15 @@ export default class MyApp extends App {
           <meta name="msapplication-TileColor" content="#eeeeee" />
           <meta name="theme-color" content="#eeeeee" />
         </Head>
-        <ThemeProvider theme={theme}>
-          {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
-          <CssBaseline />
-          <AppContainer>
-            <Component {...pageProps} />
-          </AppContainer>
-        </ThemeProvider>
+        <StoreProvider store={store}>
+          <ThemeProvider theme={theme}>
+            {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
+            <CssBaseline />
+            <AppContainer>
+              <Component {...pageProps} />
+            </AppContainer>
+          </ThemeProvider>
+        </StoreProvider>
       </React.Fragment>
     )
   }

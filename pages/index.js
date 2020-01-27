@@ -7,7 +7,8 @@ import Paper from '@material-ui/core/Paper'
 import ToolBar from '@material-ui/core/Toolbar'
 import Typography from '@material-ui/core/Typography'
 import MenuIcon from '@material-ui/icons/Menu'
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/core/styles'
+import Hidden from '@material-ui/core/Hidden'
 import fetch from 'isomorphic-unfetch'
 import last from 'ramda/src/last'
 import propOr from 'ramda/src/propOr'
@@ -15,6 +16,7 @@ import times from 'ramda/src/times'
 import React from 'react'
 import Viz from 'react-visibility-sensor'
 import useSWR, { useSWRPages } from 'swr'
+import { useStoreActions } from 'easy-peasy'
 import Entry from '../src/components/Entry'
 import Loader from '../src/components/Loader'
 import { Sidebar } from '../src/components/Sidebar'
@@ -37,11 +39,11 @@ const Items = ({ feed }) =>
   feed.map(entry => <Entry entry={entry} key={entry.id} />)
 
 const useStyles = makeStyles(theme => ({
-    responsivePadding: {
-        [theme.breakpoints.up('sm')]: {
-            paddingLeft: 'calc(350px + 0.6rem)'
-        }
+  responsivePadding: {
+    [theme.breakpoints.up('sm')]: {
+      paddingLeft: 'calc(350px + 0.6rem)'
     }
+  }
 }))
 
 const Page = () => {
@@ -58,15 +60,26 @@ const Page = () => {
     []
   )
 
-  const styles = useStyles();
+  const styles = useStyles()
+
+  const { toggleSidebar } = useStoreActions(({ sidebar }) => ({
+    toggleSidebar: sidebar.toggle
+  }))
 
   return (
     <Box>
       <AppBar color="primary" position="sticky" style={{ zIndex: 99999 }}>
         <ToolBar>
-          <IconButton edge="start" color="inherit" aria-label="menu">
-            <MenuIcon />
-          </IconButton>
+          <Hidden smUp>
+            <IconButton
+              onClick={toggleSidebar}
+              edge="start"
+              color="inherit"
+              aria-label="menu"
+            >
+              <MenuIcon />
+            </IconButton>
+          </Hidden>
           <Typography variant="h5">BBQ Corner 🥩</Typography>
         </ToolBar>
       </AppBar>
